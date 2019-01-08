@@ -1,6 +1,6 @@
 {
   "name": "@madewithjiro/jiro-sdk",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "APIs for Jiro",
   "main": "./dist/index.js",
   "repository": {
@@ -23,7 +23,6 @@
     "dist/**/*"
   ],
   "dependencies": {
-    "@google-cloud/firestore": "^0.19.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5"
   },
