@@ -1,6 +1,6 @@
 {
   "name": "@madewithjiro/jiro-sdk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "APIs for Jiro",
   "main": "./dist/index.js",
   "repository": {

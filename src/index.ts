@@ -3,7 +3,7 @@ import { Config } from './Config';
 import { JiroStoreAdapter } from './store/JiroStoreAdapter';
 import { DaemonApi } from './daemon/DaemonApi';
 
-export class Jiro extends BaseServerApi {
+export default class Jiro extends BaseServerApi {
 
   private readonly daemonApi: DaemonApi;
   public readonly Store: JiroStoreAdapter;
