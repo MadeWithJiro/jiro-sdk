@@ -34,8 +34,10 @@ export class DaemonApi {
         ...this.headers,
       },
       json: true,
-      body: {
+      qs: {
         documentName,
+      },
+      body: {
         documentBody,
       },
     };
@@ -58,7 +60,7 @@ export class DaemonApi {
         ...this.headers,
       },
       json: true,
-      body: {
+      qs: {
         documentName,
       },
     };
@@ -87,8 +89,10 @@ export class DaemonApi {
         ...this.headers,
       },
       json: true,
-      body: {
+      qs: {
         documentName,
+      },
+      body: {
         documentBody,
       },
     };
@@ -111,7 +115,7 @@ export class DaemonApi {
         ...this.headers,
       },
       json: true,
-      body: {
+      qs: {
         documentName,
       },
     };
