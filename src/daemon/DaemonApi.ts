@@ -171,8 +171,7 @@ export class DaemonApi {
   // Private helper functions
 
   private buildUri(path: string): string {
-    return `http://localhost:3128${path}`;
-
+    // return `http://localhost:3128${path}`;
     return `https://daemon.jiro.app${path}`;
   }
 }
