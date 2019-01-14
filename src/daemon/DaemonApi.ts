@@ -79,6 +79,38 @@ export class DaemonApi {
     }
   }
 
+  async search<T>(
+    collection: string,
+    queryKey: string,
+    queryValue: string,
+  ): Promise<T> {
+    const options: rp.OptionsWithUri = {
+      uri: this.buildUri(`/v1/projects/${this.projectId}/store/search`),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.headers,
+      },
+      json: true,
+      body: {
+        collection,
+        queryKey,
+        queryValue,
+      },
+    };
+
+    try {
+      const response = await rp(options);
+      return response.results;
+    } catch (err) {
+      if (err.statusCode === 404) {
+        throw new Error('Document not found');
+      } else {
+        throw new Error('Service error');
+      }
+    }
+  }
+
   async getWhere<T>(
     collection: string,
     predicateKey: string,

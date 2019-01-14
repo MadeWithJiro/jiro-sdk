@@ -40,6 +40,14 @@ describe('Daemon API', () => {
       });
   });
 
+  it('should search', () => {
+    return daemonApi
+      .search(testCollectionName, 'stringKey', 'test')
+      .then((results: any) => {
+        expect(results[0]).to.deep.equal(testDocument);
+      });
+  });
+
   it('should read multiple documents', () => {
     return daemonApi
       .getAll(testCollectionName, [testDocumentName])
