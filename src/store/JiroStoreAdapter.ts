@@ -27,6 +27,14 @@ export class JiroStoreAdapter extends BaseServerApi {
     return this.daemonApi.update(collection, documentName, documentBody);
   }
 
+  async arrayPush(collection: string, documentName: string, documentBody: any): Promise<boolean> {
+    return this.daemonApi.arrayPush(collection, documentName, documentBody);
+  }
+
+  async arrayRemove(collection: string, documentName: string, documentBody: any): Promise<boolean> {
+    return this.daemonApi.arrayRemove(collection, documentName, documentBody);
+  }
+
   async delete(collection: string, documentName: string): Promise<boolean> {
     return this.daemonApi.delete(collection, documentName);
   }

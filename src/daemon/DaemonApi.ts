@@ -142,6 +142,60 @@ export class DaemonApi {
     }
   }
 
+  async arrayPush(
+    collection: string,
+    documentName: string,
+    documentBody: any,
+  ): Promise<boolean> {
+    const options: rp.OptionsWithUri = {
+      uri: this.buildUri(`/v1/projects/${this.projectId}/store/update/push`),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.headers,
+      },
+      json: true,
+      body: {
+        collection,
+        documentName,
+        documentBody,
+      },
+    };
+    try {
+      await rp(options);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  async arrayRemove(
+    collection: string,
+    documentName: string,
+    documentBody: any,
+  ): Promise<boolean> {
+    const options: rp.OptionsWithUri = {
+      uri: this.buildUri(`/v1/projects/${this.projectId}/store/update/remove`),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.headers,
+      },
+      json: true,
+      body: {
+        collection,
+        documentName,
+        documentBody,
+      },
+    };
+    try {
+      await rp(options);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   async delete(
     collection: string,
     documentName: string,
@@ -171,7 +225,7 @@ export class DaemonApi {
   // Private helper functions
 
   private buildUri(path: string): string {
-    // return `http://localhost:3128${path}`;
-    return `https://daemon.jiro.app${path}`;
+    return `http://localhost:3128${path}`;
+    //return `https://daemon.jiro.app${path}`;
   }
 }
