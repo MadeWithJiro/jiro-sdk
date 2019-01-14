@@ -5,6 +5,7 @@ import { expect } from 'chai';
 import 'mocha';
 
 describe('Daemon API', () => {
+  const testCollectionName = 'TEST_COLLECTION';
   const testDocumentName = 'TEST_DOCUMENT';
 
   const daemonApi = new DaemonApi({
@@ -14,39 +15,39 @@ describe('Daemon API', () => {
 
   it('should throw if a document does not exist', () => {
     daemonApi
-      .read(testDocumentName)
+      .get(testCollectionName, testDocumentName);
   });
 
   it('should create a document', () => {
-    daemonApi.create(testDocumentName, {
+    daemonApi.set(testCollectionName, testDocumentName, {
       stringKey: 'testValue',
       numericKey: 100,
       booleanKey: true,
     })
       .then((success) => {
         expect(success).to.be.true;
-      })
+      });
   });
 
   it('should read a document', () => {
     daemonApi
-      .read(testDocumentName)
+      .get(testCollectionName, testDocumentName)
       .then((document) => {
         expect(document).to.eq({
           stringKey: 'testValue',
           numericKey: 100,
           booleanKey: true,
         });
-      })
+      });
   });
 
   it('should update a document', () => {
-    daemonApi.update(testDocumentName, {
+    daemonApi.update(testCollectionName, testDocumentName, {
       stringKey: 'newValue',
       numericKey: 100,
       booleanKey: true,
     })
-      .then(() => daemonApi.read(testDocumentName))
+      .then(() => daemonApi.get(testCollectionName, testDocumentName))
       .then((document) => {
         expect(document).to.eq({
           stringKey: 'newValue',
@@ -57,7 +58,7 @@ describe('Daemon API', () => {
   });
 
   it('should delete a document', () => {
-    daemonApi.delete(testDocumentName)
+    daemonApi.delete(testCollectionName, testDocumentName)
       .then((success) => {
         expect(success).to.be.true;
       });

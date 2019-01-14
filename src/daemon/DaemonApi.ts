@@ -22,22 +22,22 @@ export class DaemonApi {
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // Store APIs
 
-  async create(
-      documentName: string,
-      documentBody: any,
+  async set(
+    collection: string,
+    documentName: string,
+    documentBody: any,
   ): Promise<boolean> {
     const options: rp.OptionsWithUri = {
-      uri: this.buildUri(`/v1/projects/${this.projectId}/store`),
-      method: 'PUT',
+      uri: this.buildUri(`/v1/projects/${this.projectId}/store/set`),
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         ...this.headers,
       },
       json: true,
-      qs: {
-        documentName,
-      },
       body: {
+        collection,
+        documentName,
         documentBody,
       },
     };
@@ -49,18 +49,20 @@ export class DaemonApi {
     }
   }
 
-  async read<T>(
-      documentName: string,
+  async get<T>(
+    collection: string,
+    documentName?: string | null
   ): Promise<T> {
     const options: rp.OptionsWithUri = {
-      uri: this.buildUri(`/v1/projects/${this.projectId}/store`),
-      method: 'GET',
+      uri: this.buildUri(`/v1/projects/${this.projectId}/store/get`),
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         ...this.headers,
       },
       json: true,
-      qs: {
+      body: {
+        collection,
         documentName,
       },
     };
@@ -77,27 +79,63 @@ export class DaemonApi {
     }
   }
 
-  async update(
-      documentName: string,
-      documentBody: any,
-  ): Promise<boolean> {
+  async getWhere<T>(
+    collection: string,
+    predicateKey: string,
+    predicateOperation: string,
+    predicateValue: string,
+  ): Promise<T> {
     const options: rp.OptionsWithUri = {
-      uri: this.buildUri(`/v1/projects/${this.projectId}/store`),
+      uri: this.buildUri(`/v1/projects/${this.projectId}/store/get`),
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         ...this.headers,
       },
       json: true,
-      qs: {
-        documentName,
-      },
       body: {
+        collection,
+        predicate: {
+          key: predicateKey,
+          operation: predicateOperation,
+          value: predicateValue,
+        },
+      },
+    };
+
+    try {
+      const response = await rp(options);
+      return response.document;
+    } catch (err) {
+      if (err.statusCode === 404) {
+        throw new Error('Document not found');
+      } else {
+        throw new Error('Service error');
+      }
+    }
+  }
+
+  async update(
+    collection: string,
+    documentName: string,
+    documentBody: any,
+  ): Promise<boolean> {
+    const options: rp.OptionsWithUri = {
+      uri: this.buildUri(`/v1/projects/${this.projectId}/store/update`),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.headers,
+      },
+      json: true,
+      body: {
+        collection,
+        documentName,
         documentBody,
       },
     };
     try {
-      await  rp(options);
+      await rp(options);
       return true;
     } catch (e) {
       return false;
@@ -105,17 +143,19 @@ export class DaemonApi {
   }
 
   async delete(
-      documentName: string,
+    collection: string,
+    documentName: string,
   ): Promise<boolean> {
     const options: rp.OptionsWithUri = {
-      uri: this.buildUri(`/v1/projects/${this.projectId}/store`),
-      method: 'DELETE',
+      uri: this.buildUri(`/v1/projects/${this.projectId}/store/delete`),
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         ...this.headers,
       },
       json: true,
-      qs: {
+      body: {
+        collection,
         documentName,
       },
     };
@@ -131,6 +171,8 @@ export class DaemonApi {
   // Private helper functions
 
   private buildUri(path: string): string {
+    return `http://localhost:3128${path}`;
+
     return `https://daemon.jiro.app${path}`;
   }
 }

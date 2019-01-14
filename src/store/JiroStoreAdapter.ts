@@ -11,19 +11,23 @@ export class JiroStoreAdapter extends BaseServerApi {
     this.daemonApi = daemonApi;
   }
 
-  async create(documentName: string, documentBody: any): Promise<boolean> {
-    return this.daemonApi.create(documentName, documentBody);
+  async set(collection: string, documentName: string, documentBody: any) {
+    return this.daemonApi.set(collection, documentName, documentBody);
   }
 
-  async read<T>(documentName: string): Promise<T> {
-    return this.daemonApi.read<T>(documentName);
+  async get(collection: string, documentName?: string | null) {
+    return this.daemonApi.get(collection, documentName);
   }
 
-  async update(documentName: string, documentBody: any): Promise<boolean> {
-    return this.daemonApi.update(documentName, documentBody);
+  async getWhere(collection: string, predicateKey: string, predicateOperation: string, predicateValue: string) {
+    return this.daemonApi.getWhere(collection, predicateKey, predicateOperation, predicateValue);
   }
 
-  async delete(documentName: string): Promise<boolean> {
-    return this.daemonApi.delete(documentName);
+  async update(collection: string, documentName: string, documentBody: any): Promise<boolean> {
+    return this.daemonApi.update(collection, documentName, documentBody);
+  }
+
+  async delete(collection: string, documentName: string): Promise<boolean> {
+    return this.daemonApi.delete(collection, documentName);
   }
 }
