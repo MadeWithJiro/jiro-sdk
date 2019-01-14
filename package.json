@@ -17,7 +17,7 @@
     "watch:build": "tsc --watch",
     "watch:server": "nodemon './dist/index.js' --watch './dist'",
     "prepublish": "npm-run-all clean build",
-    "test": "mocha -r ts-node/register src/**/*.spec.ts"
+    "test": "NODE_TEST=true mocha -r ts-node/register src/**/*.spec.ts"
   },
   "files": [
     "dist/**/*"
