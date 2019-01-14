@@ -23,6 +23,10 @@ export class JiroStoreAdapter extends BaseServerApi {
     return this.daemonApi.getWhere(collection, predicateKey, predicateOperation, predicateValue);
   }
 
+  async getAll(collection: string, documentNames: string[]) {
+    return this.daemonApi.getAll(collection, documentNames);
+  }
+
   async update(collection: string, documentName: string, documentBody: any): Promise<boolean> {
     return this.daemonApi.update(collection, documentName, documentBody);
   }

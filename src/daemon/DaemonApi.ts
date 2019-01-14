@@ -115,6 +115,36 @@ export class DaemonApi {
     }
   }
 
+  async getAll<T>(
+    collection: string,
+    documentNames: string[],
+  ): Promise<T[]> {
+    const options: rp.OptionsWithUri = {
+      uri: this.buildUri(`/v1/projects/${this.projectId}/store/getAll`),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.headers,
+      },
+      json: true,
+      body: {
+        collection,
+        documentNames,
+      },
+    };
+
+    try {
+      const response = await rp(options);
+      return response.results;
+    } catch (err) {
+      if (err.statusCode === 404) {
+        throw new Error('Document not found');
+      } else {
+        throw new Error('Service error');
+      }
+    }
+  }
+
   async update(
     collection: string,
     documentName: string,
