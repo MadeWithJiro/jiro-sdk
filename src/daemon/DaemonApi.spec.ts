@@ -56,6 +56,14 @@ describe('Daemon API', () => {
       });
   });
 
+  it('should read multiple documents with predicate', () => {
+    return daemonApi
+      .getAllWhere(testCollectionName, 'stringKey', '=', ['testValue'])
+      .then((documents) => {
+        expect(documents[0]).to.deep.equal(testDocument);
+      });
+  });
+
   it('should read a document with a predicate', () => {
     return daemonApi
       .getWhere(testCollectionName, 'stringKey', '==', 'testValue')

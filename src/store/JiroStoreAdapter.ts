@@ -27,6 +27,10 @@ export class JiroStoreAdapter extends BaseServerApi {
     return this.daemonApi.getAll(collection, documentNames);
   }
 
+  async getAllWhere(collection: string, predicateKey: string, predicateOperation: string, predicateValues: string[]) {
+    return this.daemonApi.getAllWhere(collection, predicateKey, predicateOperation, predicateValues);
+  }
+
   async search(collection: string, queryKey: string, queryValue: string) {
     return this.daemonApi.search(collection, queryKey, queryValue);
   }

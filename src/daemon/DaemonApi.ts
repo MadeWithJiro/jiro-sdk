@@ -177,6 +177,40 @@ export class DaemonApi {
     }
   }
 
+  async getAllWhere<T>(
+    collection: string,
+    predicateKey: string,
+    predicateOperation: string,
+    predicateValues: string[],
+  ): Promise<T[]> {
+    const options: rp.OptionsWithUri = {
+      uri: this.buildUri(`/v1/projects/${this.projectId}/store/getAllWhere`),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.headers,
+      },
+      json: true,
+      body: {
+        collection,
+        predicateKey,
+        predicateOperation,
+        predicateValues,
+      },
+    };
+
+    try {
+      const response = await rp(options);
+      return response.results;
+    } catch (err) {
+      if (err.statusCode === 404) {
+        throw new Error('Document not found');
+      } else {
+        throw new Error('Service error');
+      }
+    }
+  }
+
   async update(
     collection: string,
     documentName: string,
